@@ -20,6 +20,20 @@ const RegisterPart1 = () => {
     }));
   };
 
+  function transformUserData(originalUser) {
+    return {
+      user_id: "UID0028",
+      reg_id: "REG0057",
+      reg_user_name: `${originalUser.first_name} ${originalUser.second_name}`,
+      age: 11,
+      gender: originalUser.gender,
+      gmail: originalUser.gmail,
+      phone_number: originalUser.phone_number,
+      user_name: originalUser.gmail.split('@')[0] + '@gmail.com'
+    };
+  }
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = {
@@ -37,6 +51,8 @@ const RegisterPart1 = () => {
       const user = res.data.user;
       if (regId) {
         localStorage.setItem('user', JSON.stringify( user ));
+        const transformedUser = transformUserData(user);
+        localStorage.setItem('auth_user', JSON.stringify( transformedUser ));
         localStorage.setItem('regId', JSON.stringify( regId ));
         navigate(`/register-step2/${regId}`);
       } else {
